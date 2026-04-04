@@ -1,5 +1,6 @@
 import { UserRepository, CreateUserDTO } from "./user.repository";
 import { UserModel } from "../models/user.model";
+import { User } from "../types/type";
 
 export class MongoUserRepository implements UserRepository {
   async createUser(dto: CreateUserDTO): Promise<CreateUserDTO> {
@@ -13,13 +14,11 @@ export class MongoUserRepository implements UserRepository {
     return user ? user.toObject() : null;
   }
 
-  async findByUserName(userName: string): Promise<boolean> {
-    const user = await UserModel.findOne({ userName });
-    return user !== null;
+  async findByEmail(email: string): Promise<User | null> {
+    return await UserModel.findOne({ email });
   }
 
-  async findByEmail(email: string): Promise<boolean> {
-    const user = await UserModel.findOne({ email });
-    return user !== null;
+  async findByUserName(userName: string): Promise<User | null> {
+    return await UserModel.findOne({ userName });
   }
 }

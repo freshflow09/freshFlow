@@ -9,12 +9,12 @@ export type CreateUserDTO = {
 
 export interface UserRepository {
 
-  createUser({}:CreateUserDTO): Promise<CreateUserDTO>
+  createUser({ }: CreateUserDTO): Promise<CreateUserDTO>
 
   getUser(id: string): Promise<any>
 
-  findByUserName(userName: string): Promise<boolean>
-  findByEmail(email: string): Promise<boolean>
+  findByUserName(userName: string): Promise<User | null>
+  findByEmail(email: string): Promise<User | null>
 
 
 }

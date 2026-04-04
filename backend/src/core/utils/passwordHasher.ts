@@ -23,7 +23,8 @@ export const hashPassword = async (password: string): Promise<HashResult> => {
             }
         }
 
-        const hash = await bcrypt.hash(password, process.env.SALT_ROUNDS||9)
+        const saltRounds = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 9;
+        const hash = await bcrypt.hash(password, saltRounds);
 
         return {
             success: true,
