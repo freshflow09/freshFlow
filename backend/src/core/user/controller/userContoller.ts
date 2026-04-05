@@ -15,7 +15,7 @@ export const addUser = catchAsync(async (req: Request, res: Response, next: Next
   if ([firstname, lastname, userName, email, password].some((v) => !v || typeof v !== 'string' || v.trim() === "")) {
     return next(new AppError("All fields are required", 400));
   }
-  // userName = String(userName).toLocaleLowerCase();
+
   const existingUserName = await repo.findByUserName(userName);
   if (existingUserName) {
     return next(new AppError("Username already exists", 409));
@@ -40,18 +40,15 @@ export const addUser = catchAsync(async (req: Request, res: Response, next: Next
     password: hashResult.hash
   });
 
-  // Generate JWT token
   const token = generateToken((newUser as any)._id || (newUser as any).id, newUser.email);
 
-  // Set cookie with JWT
   res.cookie("jwt", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
-    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    maxAge: 7 * 24 * 60 * 60 * 1000
   });
 
-  // Send success response
   res.status(201).json({
     success: true,
     message: "User registered successfully",
@@ -95,15 +92,13 @@ export const loginUser = catchAsync(async (req: Request, res: Response, next: Ne
     return next(new AppError("Invalid credentials", 401));
   }
 
-  // Generate JWT token
   const token = generateToken(user._id || user.id, user.email);
 
-  // Set cookie with JWT
   res.cookie("jwt", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
-    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    maxAge: 7 * 24 * 60 * 60 * 1000
   });
 
   res.status(200).json({
