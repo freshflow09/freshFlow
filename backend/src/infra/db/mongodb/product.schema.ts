@@ -5,18 +5,11 @@ export interface IProductDocument extends Document {
     productName: string;
     category: string;
     brand: string;
-    
     unitType: string;
     supplierName: string;
     storageType: string;
-    quantity: number;
-    
-    costPrice: number;
     sellingPrice: number;
-    
-    arrivalDate: Date;
-    expiryDate: Date;
-
+    totalAvailableQuantity: number;
     images: string[];
     videoUrl?: string;
     createdBy: mongoose.Types.ObjectId;
@@ -60,30 +53,15 @@ const ProductSchema = new Schema<IProductDocument>({
         trim: true,
         default: 'Room Temp'
     },
-    quantity: { 
-        type: Number, 
-        required: true, 
-        min: [0, 'Quantity cannot be negative'] 
-    },
-
-    costPrice: { 
-        type: Number, 
-        required: true, 
-        min: 0 
-    },
     sellingPrice: { 
         type: Number, 
         required: true, 
         min: 0 
     },
-
-    arrivalDate: { 
-        type: Date, 
-        required: true 
-    },
-    expiryDate: { 
-        type: Date, 
-        required: true 
+    totalAvailableQuantity: {
+        type: Number,
+        default: 0,
+        min: 0
     },
 
     images: {
