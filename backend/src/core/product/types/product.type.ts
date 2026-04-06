@@ -6,11 +6,8 @@ export interface Product {
   unitType: string;
   supplierName?: string;
   storageType?: string;
-  quantity: number;
-  costPrice: number;
   sellingPrice: number;
-  arrivalDate: Date;
-  expiryDate: Date;
+  totalAvailableQuantity: number;
   images: string[];
   videoUrl?: string;
   createdBy: string;
